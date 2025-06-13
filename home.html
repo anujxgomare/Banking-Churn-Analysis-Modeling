@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Churn Prediction App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #f1f4f9, #dff1ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background-color: white;
+      padding: 40px 50px;
+      border-radius: 18px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      width: 500px;
+      max-width: 95%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #34495e;
+      margin-bottom: 30px;
+      font-size: 26px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2c80b4;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      color: white;
+      background-color: #27ae60;
+    }
+
+    .result.churn {
+      background-color: #e74c3c;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>🔍 Churn Prediction</h2>
+    <form action="/predict" method="post">
+      <label>Credit Score</label>
+      <input type="number" name="CreditScore" required>
+
+      <label>Age</label>
+      <input type="number" name="Age" required>
+
+      <label>Tenure</label>
+      <input type="number" name="Tenure" required>
+
+      <label>Balance</label>
+      <input type="number" name="Balance" step="0.01" required>
+
+      <label>Estimated Salary</label>
+      <input type="number" name="EstimatedSalary" step="0.01" required>
+
+      <label>Number of Products</label>
+      <input type="number" name="NumOfProducts" required>
+
+      <label>Has Credit Card</label>
+      <select name="HasCrCard">
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+      </select>
+
+      <label>Is Active Member</label>
+      <select name="IsActiveMember">
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+      </select>
+
+      <label>Gender</label>
+      <select name="Gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+
+      <label>Geography</label>
+      <select name="Geography">
+        <option value="France">France</option>
+        <option value="Germany">Germany</option>
+        <option value="Spain">Spain</option>
+      </select>
+
+      <button type="submit">🚀 Predict Now</button>
+    </form>
+
+    {% if prediction_text %}
+      <div class="result {% if 'not churn' not in prediction_text.lower() %}churn{% endif %}">
+        {{ prediction_text }}
+      </div>
+    {% endif %}
+
+    <div class="footer">Powered by XGBoost | Developed in Flask</div>
+  </div>
+</body>
+</html>
